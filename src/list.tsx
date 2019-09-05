@@ -4,7 +4,6 @@ import * as React from 'react';
 import * as moment from 'moment';
 import * as numeral from 'numeral';
 
-import { AuthSession, hasAccess } from 'webpanel-auth';
 import {
   DataSource,
   ResourceCollection,
@@ -13,6 +12,7 @@ import {
 } from 'webpanel-data';
 import { List, message } from 'antd';
 
+import { AuthSession } from 'webpanel-auth';
 import { DeleteButton } from './components/delete-button';
 import { Pagination } from './pagination';
 import { SpinningCard } from './spinning-card';
@@ -59,15 +59,13 @@ export class FilesList extends React.Component<IFilesListProps> {
                 return (
                   <List.Item
                     actions={[
-                      hasAccess('deleteFile') && (
-                        <DeleteButton
-                          key="delete"
-                          onDelete={async () => {
-                            await files.delete(item.id);
-                            await files.get();
-                          }}
-                        />
-                      )
+                      <DeleteButton
+                        key="delete"
+                        onDelete={async () => {
+                          await files.delete(item.id);
+                          await files.get();
+                        }}
+                      />
                     ]}
                   >
                     <div className={'file-list__item'}>
