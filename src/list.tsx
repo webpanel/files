@@ -1,5 +1,4 @@
 import 'react-chat-widget/lib/styles.css';
-import './styles.css';
 
 import * as React from 'react';
 import * as moment from 'moment';

@@ -1,5 +1,4 @@
 import 'react-chat-widget/lib/styles.css';
-import './styles.css';
 import * as React from 'react';
 import { DataSource } from 'webpanel-data';
 export interface IFilesListProps {
