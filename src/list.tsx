@@ -23,7 +23,7 @@ export interface IFilesListProps {
   referenceID: string | number;
   referenceColumn: string;
   dataSource: DataSource;
-  fileUploadURL: string;
+  uploadURL: string;
 }
 
 export class FilesList extends React.Component<IFilesListProps> {
@@ -33,7 +33,7 @@ export class FilesList extends React.Component<IFilesListProps> {
   };
 
   public render() {
-    const { dataSource, fileUploadURL } = this.props;
+    const { dataSource, uploadURL } = this.props;
 
     return (
       <ResourceCollectionLayer
@@ -97,7 +97,7 @@ export class FilesList extends React.Component<IFilesListProps> {
               <Pagination resourceCollection={files} />
             </div>
             <Upload
-              url={`${fileUploadURL}?reference=${this.props.referenceID}&${this.props.referenceColumn}=${this.props.referenceID}`}
+              url={`${uploadURL}?reference=${this.props.referenceID}&${this.props.referenceColumn}=${this.props.referenceID}`}
               onUploadSuccess={() => {
                 message.success('Soubor nahrán.');
                 files.get();

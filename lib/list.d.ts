@@ -6,7 +6,7 @@ export interface IFilesListProps {
     referenceID: string | number;
     referenceColumn: string;
     dataSource: DataSource;
-    fileUploadURL: string;
+    uploadURL: string;
 }
 export declare class FilesList extends React.Component<IFilesListProps> {
     getItemURL: (item: any) => string;
