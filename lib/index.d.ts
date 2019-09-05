@@ -1,2 +1,2 @@
-import '../styles/upload.css';
+import '../styles/styles.css';
 export { FilesList } from './list';
