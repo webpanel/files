@@ -1,0 +1,26 @@
+.file-list__item {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.file-list__item .creation-date {
+  font-size: 12px;
+}
+.file-list__item .file-size {
+  font-style: italic;
+  font-size: 12px;
+}
+
+.file-list__item .file-list__right-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* this is actually just fix for this issue https://github.com/ant-design/ant-design/issues/11869 */
+.ant-upload.ant-upload-drag {
+  padding: 0;
+}
+.ant-upload-drag-container {
+  padding: 16px;
+}
