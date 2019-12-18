@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { UploadProps } from 'antd/lib/upload';
+import * as React from "react";
+import { UploadProps } from "antd/lib/upload";
 export interface IUploadProps extends UploadProps {
     url: string;
     onUploadSuccess?: (file: any) => void;
