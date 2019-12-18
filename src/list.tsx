@@ -20,11 +20,12 @@ import { SpinningCard } from "./spinning-card";
 import { Upload } from "./upload";
 
 export interface IFilesListProps {
-  referenceID: string | number;
-  referenceColumn: string;
+  referenceID?: string | number;
+  referenceColumn?: string;
   initialFilters?: DataSourceArgumentMap;
   dataSource: DataSource;
   uploadURL: string;
+  readonly?: boolean;
 }
 
 export class FilesList extends React.Component<IFilesListProps> {
@@ -39,11 +40,14 @@ export class FilesList extends React.Component<IFilesListProps> {
       referenceColumn,
       referenceID,
       uploadURL,
-      initialFilters
+      initialFilters,
+      readonly
     } = this.props;
 
     let filters: DataSourceArgumentMap = {};
-    filters[referenceColumn] = referenceID;
+    if (referenceID) {
+      filters[referenceColumn || "reference"] = referenceID;
+    }
     filters = { ...filters, ...initialFilters };
 
     return (
@@ -105,16 +109,18 @@ export class FilesList extends React.Component<IFilesListProps> {
             <div className={"pagination"}>
               <Pagination resourceCollection={files} />
             </div>
-            <Upload
-              url={`${uploadURL}?reference=${this.props.referenceID}&${this.props.referenceColumn}=${this.props.referenceID}`}
-              onUploadSuccess={() => {
-                message.success("Soubor nahrán.");
-                files.get();
-              }}
-              onUploadError={() =>
-                message.error("Soubor se bohužel nepodařilo nahrát.")
-              }
-            />
+            {!readonly && (
+              <Upload
+                url={`${uploadURL}?reference=${this.props.referenceID}&${this.props.referenceColumn}=${this.props.referenceID}`}
+                onUploadSuccess={() => {
+                  message.success("Soubor nahrán.");
+                  files.get();
+                }}
+                onUploadError={() =>
+                  message.error("Soubor se bohužel nepodařilo nahrát.")
+                }
+              />
+            )}
           </SpinningCard>
         )}
       />
