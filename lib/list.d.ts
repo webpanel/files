@@ -8,9 +8,10 @@ export interface IFilesListProps {
     initialFilters?: DataSourceArgumentMap;
     dataSource: DataSource;
     uploadURL: string;
+    hostURL: string;
     readonly?: boolean;
 }
 export declare class FilesList extends React.Component<IFilesListProps> {
-    getItemURL: (item: any) => string;
+    getItemURL: (hostURL: string, item: any) => string;
     render(): JSX.Element;
 }

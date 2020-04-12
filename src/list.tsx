@@ -8,7 +8,7 @@ import {
   DataSource,
   ResourceCollection,
   ResourceCollectionLayer,
-  SortInfoOrder
+  SortInfoOrder,
 } from "webpanel-data";
 import { List, message } from "antd";
 
@@ -25,13 +25,14 @@ export interface IFilesListProps {
   initialFilters?: DataSourceArgumentMap;
   dataSource: DataSource;
   uploadURL: string;
+  hostURL: string;
   readonly?: boolean;
 }
 
 export class FilesList extends React.Component<IFilesListProps> {
-  public getItemURL = (item: any): string => {
+  public getItemURL = (hostURL: string, item: any): string => {
     const token = AuthSession.current().accessToken;
-    return `${item.url}?access_token=${token}`;
+    return `${hostURL}/${item.uid}?access_token=${token}`;
   };
 
   public render() {
@@ -40,8 +41,9 @@ export class FilesList extends React.Component<IFilesListProps> {
       referenceColumn,
       referenceID,
       uploadURL,
+      hostURL,
       initialFilters,
-      readonly
+      readonly,
     } = this.props;
 
     let filters: DataSourceArgumentMap = {};
@@ -54,15 +56,15 @@ export class FilesList extends React.Component<IFilesListProps> {
       <ResourceCollectionLayer
         name="files"
         key={`files_${this.props.referenceID}`}
-        fields={["id", "name", "url", "createdAt", "size"]}
+        fields={["id", "uid", "name", "createdAt", "size"]}
         initialLimit={5}
         initialOffset={0}
         initialFilters={filters}
         initialSorting={[
           {
             columnKey: "createdAt",
-            order: SortInfoOrder.descend
-          }
+            order: SortInfoOrder.descend,
+          },
         ]}
         dataSource={dataSource}
         render={(files: ResourceCollection) => (
@@ -81,12 +83,15 @@ export class FilesList extends React.Component<IFilesListProps> {
                           await files.delete(item.id);
                           await files.get();
                         }}
-                      />
+                      />,
                     ]}
                   >
                     <div className={"file-list__item"}>
                       <div>
-                        <a href={this.getItemURL(item)} target="_blank">
+                        <a
+                          href={this.getItemURL(hostURL, item)}
+                          target="_blank"
+                        >
                           <h4>{item.name || <i>[unnamed_file]</i>}</h4>
                         </a>
 
