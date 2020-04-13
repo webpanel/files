@@ -1,3 +1,5 @@
+import { AuthSession } from "webpanel-auth";
+
 class UploadError extends Error {
   public status: number;
   public method: string;
@@ -45,12 +47,15 @@ const getPresignedUrl = async (options: UploadOptions): Promise<string> => {
     body: JSON.stringify({
       filename: options.file.name,
       size: options.file.size,
-      contentType: options.file.type
+      contentType: options.file.type,
     }),
-    headers: { "Content-Type": "application/json" }
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${AuthSession.current().accessToken}`,
+    },
   })
-    .then(res => res.json())
-    .then(json => json.uploadURL);
+    .then((res) => res.json())
+    .then((json) => json.uploadURL);
 };
 
 export function UploadRequest(options: UploadOptions) {
@@ -80,7 +85,7 @@ export function UploadRequest(options: UploadOptions) {
     options.onSuccess(getBody(xhr), xhr);
   };
 
-  getPresignedUrl(options).then(uploadURL => {
+  getPresignedUrl(options).then((uploadURL) => {
     xhr.open("PUT", uploadURL, true);
 
     // Has to be after `.open()`. See https://github.com/enyo/dropzone/issues/179
@@ -93,6 +98,6 @@ export function UploadRequest(options: UploadOptions) {
   return {
     abort() {
       xhr.abort();
-    }
+    },
   };
 }

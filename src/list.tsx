@@ -35,6 +35,16 @@ export class FilesList extends React.Component<IFilesListProps> {
     return `${hostURL}/${item.uid}?access_token=${token}`;
   };
 
+  public openItem = async (hostURL: string, item: any) => {
+    const url = await fetch(this.getItemURL(hostURL, item), {
+      method: "GET",
+      headers: { Authorization: `Bearer ${AuthSession.current().accessToken}` },
+    })
+      .then((res) => res.json())
+      .then((json) => json.url);
+    window.open(url, "_blank");
+  };
+
   public render() {
     const {
       dataSource,
@@ -89,8 +99,8 @@ export class FilesList extends React.Component<IFilesListProps> {
                     <div className={"file-list__item"}>
                       <div>
                         <a
-                          href={this.getItemURL(hostURL, item)}
-                          target="_blank"
+                          onClick={() => this.openItem(hostURL, item)}
+                          href="#"
                         >
                           <h4>{item.name || <i>[unnamed_file]</i>}</h4>
                         </a>
