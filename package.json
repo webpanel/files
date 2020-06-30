@@ -21,7 +21,6 @@
     "antd": "*",
     "react-i18next": "*",
     "webpanel-antd": "*",
-    "webpanel-auth": "*",
     "webpanel-data": "*",
     "mobx-react": "*"
   },
@@ -44,9 +43,7 @@
     "react-apollo": "^3.0.1",
     "react-i18next": "^10.11.4",
     "typescript": "^3.5.3",
-    "webpanel-admin": "0.0.14",
     "webpanel-antd": "0.0.32",
-    "webpanel-auth": "^0.0.24",
     "webpanel-data": "0.0.45",
     "webpanel-membershiplist": "0.0.2"
   }

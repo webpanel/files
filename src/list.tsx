@@ -12,7 +12,6 @@ import {
 } from "webpanel-data";
 import { List, message } from "antd";
 
-import { AuthSession } from "webpanel-auth";
 import { DataSourceArgumentMap } from "webpanel-data/lib/DataSource";
 import { DeleteButton } from "./components/delete-button";
 import { Pagination } from "./pagination";
@@ -27,18 +26,18 @@ export interface IFilesListProps {
   uploadURL: string;
   hostURL: string;
   readonly?: boolean;
+  accessToken?: string;
 }
 
 export class FilesList extends React.Component<IFilesListProps> {
-  public getItemURL = (hostURL: string, item: any): string => {
-    const token = AuthSession.current().accessToken;
+  public getItemURL = (hostURL: string, item: any, token?: string): string => {
     return `${hostURL}/${item.uid}?access_token=${token}`;
   };
 
-  public openItem = async (hostURL: string, item: any) => {
+  public openItem = async (hostURL: string, item: any, token?: string) => {
     const url = await fetch(this.getItemURL(hostURL, item), {
       method: "GET",
-      headers: { Authorization: `Bearer ${AuthSession.current().accessToken}` },
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then((res) => res.json())
       .then((json) => json.url);
@@ -54,6 +53,7 @@ export class FilesList extends React.Component<IFilesListProps> {
       hostURL,
       initialFilters,
       readonly,
+      accessToken,
     } = this.props;
 
     let filters: DataSourceArgumentMap = {};
@@ -99,7 +99,9 @@ export class FilesList extends React.Component<IFilesListProps> {
                     <div className={"file-list__item"}>
                       <div>
                         <a
-                          onClick={() => this.openItem(hostURL, item)}
+                          onClick={() =>
+                            this.openItem(hostURL, item, accessToken)
+                          }
                           href="#"
                         >
                           <h4>{item.name || <i>[unnamed_file]</i>}</h4>

@@ -1,5 +1,3 @@
-import { AuthSession } from "webpanel-auth";
-
 class UploadError extends Error {
   public status: number;
   public method: string;
@@ -38,7 +36,7 @@ interface UploadOptions {
   file: File;
   withCredentials: boolean;
   action: string;
-  headers: Object;
+  headers: Headers;
 }
 
 const getPresignedUrl = async (options: UploadOptions): Promise<string> => {
@@ -50,8 +48,8 @@ const getPresignedUrl = async (options: UploadOptions): Promise<string> => {
       contentType: options.file.type,
     }),
     headers: {
+      ...options.headers,
       "Content-Type": "application/json",
-      Authorization: `Bearer ${AuthSession.current().accessToken}`,
     },
   })
     .then((res) => res.json())

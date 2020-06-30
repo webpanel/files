@@ -1,21 +1,20 @@
 import * as React from "react";
 
 import { Upload as AntdUpload } from "antd";
-import { AuthSession } from "webpanel-auth";
 import { UploadProps } from "antd/lib/upload";
 import { UploadRequest } from "./request";
 
 export interface IUploadProps extends UploadProps {
   url: string;
+  accessToken?: string;
   onUploadSuccess?: (file: any) => void;
   onUploadError?: (err: Error, file: any) => void;
 }
 
 export class Upload extends React.Component<IUploadProps> {
   public render() {
-    const { url, ...props } = this.props;
+    const { url, accessToken, ...props } = this.props;
 
-    const accessToken = AuthSession.current().accessToken;
     const headers: { [key: string]: string } = {};
     if (accessToken) {
       headers.authorization = `Bearer ${accessToken}`;

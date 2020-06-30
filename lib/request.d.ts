@@ -15,7 +15,7 @@ interface UploadOptions {
     file: File;
     withCredentials: boolean;
     action: string;
-    headers: Object;
+    headers: Headers;
 }
 export declare function UploadRequest(options: UploadOptions): {
     abort(): void;

@@ -10,9 +10,10 @@ export interface IFilesListProps {
     uploadURL: string;
     hostURL: string;
     readonly?: boolean;
+    accessToken?: string;
 }
 export declare class FilesList extends React.Component<IFilesListProps> {
-    getItemURL: (hostURL: string, item: any) => string;
-    openItem: (hostURL: string, item: any) => Promise<void>;
+    getItemURL: (hostURL: string, item: any, token?: string | undefined) => string;
+    openItem: (hostURL: string, item: any, token?: string | undefined) => Promise<void>;
     render(): JSX.Element;
 }
