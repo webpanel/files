@@ -35,7 +35,7 @@ export class FilesList extends React.Component<IFilesListProps> {
   };
 
   public openItem = async (hostURL: string, item: any, token?: string) => {
-    const url = await fetch(this.getItemURL(hostURL, item), {
+    const url = await fetch(this.getItemURL(hostURL, item, token), {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     })
