@@ -129,6 +129,7 @@ export class FilesList extends React.Component<IFilesListProps> {
             {!readonly && (
               <Upload
                 url={`${uploadURL}?reference=${this.props.referenceID}&${this.props.referenceColumn}=${this.props.referenceID}`}
+                accessToken={accessToken}
                 onUploadSuccess={() => {
                   message.success("Soubor nahrán.");
                   files.get();
