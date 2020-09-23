@@ -31,7 +31,7 @@ export interface IFilesListProps {
 
 export class FilesList extends React.Component<IFilesListProps> {
   public getItemURL = (hostURL: string, item: any, token?: string): string => {
-    return `${hostURL}/${item.uid}?access_token=${token}`;
+    return `${hostURL}/${item.id}?access_token=${token}`;
   };
 
   public openItem = async (hostURL: string, item: any, token?: string) => {
@@ -66,7 +66,7 @@ export class FilesList extends React.Component<IFilesListProps> {
       <ResourceCollectionLayer
         name="files"
         key={`files_${this.props.referenceID}`}
-        fields={["id", "uid", "name", "createdAt", "size"]}
+        fields={["id", "name", "createdAt", "size"]}
         initialLimit={5}
         initialOffset={0}
         initialFilters={filters}
