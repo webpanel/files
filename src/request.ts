@@ -1,14 +1,14 @@
+import { RcCustomRequestOptions } from "antd/lib/upload/interface";
+
 class UploadError extends Error {
   public status: number;
-  public method: string;
   public url: string;
 }
 
-function getError(options: UploadOptions, xhr: XMLHttpRequest) {
-  const msg = `cannot ${options.method} ${options.action} ${xhr.status}'`;
+function getError(options: RcCustomRequestOptions, xhr: XMLHttpRequest) {
+  const msg = `cannot ${options.action} ${xhr.status}'`;
   const err = new UploadError(msg);
   err.status = xhr.status;
-  err.method = options.method;
   err.url = options.action;
   return err;
 }
@@ -26,20 +26,22 @@ function getBody(xhr: XMLHttpRequest) {
   }
 }
 
-interface UploadOptions {
-  onProgress: (event: { percent: number }) => void;
-  onError: (event: UploadError, body?: Object) => void;
-  onSuccess: (body: Object, xhr: XMLHttpRequest) => void;
-  method: string;
-  data: Object;
-  filename: string;
-  file: File;
-  withCredentials: boolean;
-  action: string;
-  headers: Headers;
-}
+// interface UploadOptions {
+//   onProgress: (event: { percent: number }) => void;
+//   onError: (event: UploadError, body?: Object) => void;
+//   onSuccess: (body: Object, xhr: XMLHttpRequest) => void;
+//   method: string;
+//   data: Object;
+//   filename: string;
+//   file: File;
+//   withCredentials: boolean;
+//   action: string;
+//   headers: Headers;
+// }
 
-const getPresignedUrl = async (options: UploadOptions): Promise<string> => {
+const getPresignedUrl = async (
+  options: RcCustomRequestOptions
+): Promise<string> => {
   return fetch(options.action, {
     method: "POST",
     body: JSON.stringify({
@@ -56,7 +58,7 @@ const getPresignedUrl = async (options: UploadOptions): Promise<string> => {
     .then((json) => json.uploadURL);
 };
 
-export function UploadRequest(options: UploadOptions) {
+export function UploadRequest(options: RcCustomRequestOptions) {
   const xhr = new XMLHttpRequest();
 
   if (options.onProgress && xhr.upload) {
@@ -65,7 +67,7 @@ export function UploadRequest(options: UploadOptions) {
       if (e.total > 0) {
         event.percent = (e.loaded / e.total) * 100;
       }
-      options.onProgress(event);
+      options.onProgress(event, options.file);
     };
   }
 
@@ -80,7 +82,7 @@ export function UploadRequest(options: UploadOptions) {
       return options.onError(getError(options, xhr), getBody(xhr));
     }
 
-    options.onSuccess(getBody(xhr), xhr);
+    options.onSuccess(getBody(xhr), options.file);
   };
 
   getPresignedUrl(options).then((uploadURL) => {
