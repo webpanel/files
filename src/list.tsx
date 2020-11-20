@@ -1,8 +1,6 @@
 import "react-chat-widget/lib/styles.css";
 
 import * as React from "react";
-import * as moment from "moment";
-import * as numeral from "numeral";
 
 import {
   DataSource,
@@ -14,6 +12,7 @@ import { List, message } from "antd";
 
 import { DataSourceArgumentMap } from "webpanel-data/lib/DataSource";
 import { DeleteButton } from "./components/delete-button";
+import { ListItem } from "./list-item";
 import { Pagination } from "./pagination";
 import { SpinningCard } from "./spinning-card";
 import { Upload } from "./upload";
@@ -30,20 +29,6 @@ export interface IFilesListProps {
 }
 
 export class FilesList extends React.Component<IFilesListProps> {
-  public getItemURL = (hostURL: string, item: any, token?: string): string => {
-    return `${hostURL}/${item.id}?access_token=${token}`;
-  };
-
-  public openItem = async (hostURL: string, item: any, token?: string) => {
-    const url = await fetch(this.getItemURL(hostURL, item, token), {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((res) => res.json())
-      .then((json) => json.url);
-    window.open(url, "_blank");
-  };
-
   public render() {
     const {
       dataSource,
@@ -96,29 +81,11 @@ export class FilesList extends React.Component<IFilesListProps> {
                       />,
                     ]}
                   >
-                    <div className={"file-list__item"}>
-                      <div>
-                        <a
-                          onClick={() =>
-                            this.openItem(hostURL, item, accessToken)
-                          }
-                          href="#"
-                        >
-                          <h4>{item.name || <i>[unnamed_file]</i>}</h4>
-                        </a>
-
-                        <span className="file-size">
-                          {numeral(item.size).format("0.00b")}
-                        </span>
-                      </div>
-                      <div className="file-list__right-column">
-                        <div style={{ margin: "auto 0" }}>{item.text}</div>
-
-                        <div className="creation-date">
-                          {moment(item.createdAt).calendar()}
-                        </div>
-                      </div>
-                    </div>
+                    <ListItem
+                      item={item}
+                      hostURL={hostURL}
+                      accessToken={accessToken}
+                    />
                   </List.Item>
                 );
               }}
