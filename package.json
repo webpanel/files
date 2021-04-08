@@ -18,12 +18,10 @@
     "ts-thunk": "0.0.6"
   },
   "peerDependencies": {
-    "ant-design-pro": "*",
     "antd": "*",
-    "react-i18next": "*",
+    "react-i18next": "^10.12.3",
     "webpanel-antd": "*",
-    "webpanel-data": "*",
-    "mobx-react": "*"
+    "webpanel-data": "github:webpanel/data"
   },
   "repository": {
     "type": "git",
@@ -35,10 +33,10 @@
     "@types/react-dom": "^16.9.9",
     "antd": "^4.7.3",
     "i18next": "^17.0.8",
-    "mobx-react": "^6.1.3",
-    "typescript": "^3.5.3",
+    "react-i18next": "10.12.3",
+    "typescript": "^4.2.3",
     "webpanel-antd": "0.0.32",
-    "webpanel-data": "0.0.45",
+    "webpanel-data": "github:webpanel/data",
     "webpanel-membershiplist": "0.0.2"
   }
 }

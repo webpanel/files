@@ -1,15 +1,15 @@
-import 'react-chat-widget/lib/styles.css';
+import "react-chat-widget/lib/styles.css";
 
-import * as React from 'react';
+import * as React from "react";
 
-import { Alert, Card, Spin } from 'antd';
-import { Resource, ResourceCollection } from 'webpanel-data';
+import { Alert, Card, Spin } from "antd";
+import { Resource, ResourceCollection } from "webpanel-data";
 
-import { CardProps } from 'antd/lib/card';
-import { observer } from 'mobx-react';
+import { CardProps } from "antd/lib/card";
+import { observer } from "mobx-react";
 
 export interface ISpinningCardProps extends CardProps {
-  observedResource: ResourceCollection | Resource;
+  observedResource: ResourceCollection<any> | Resource;
 }
 
 @observer
@@ -18,7 +18,7 @@ export class SpinningCard extends React.Component<ISpinningCardProps> {
     const { observedResource, ...cardProps } = this.props;
     const loading = observedResource.loading;
     const error = observedResource.error;
-    const emptyData = !observedResource.getRawData();
+    const emptyData = !observedResource.getData();
     return (
       <Spin spinning={loading}>
         <Card loading={loading && emptyData} {...cardProps}>
