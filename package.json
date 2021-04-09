@@ -18,25 +18,20 @@
     "ts-thunk": "0.0.6"
   },
   "peerDependencies": {
-    "antd": "*",
-    "react-i18next": "^10.12.3",
-    "webpanel-antd": "*",
-    "webpanel-data": "github:webpanel/data"
+    "antd": "^4.7.3",
+    "webpanel-antd": "^0.3.0",
+    "webpanel-data": "^0.3.0"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/webpanel/files.git"
   },
   "devDependencies": {
-    "@types/graphql": "^14.2.3",
     "@types/react": "^16.9.55",
     "@types/react-dom": "^16.9.9",
-    "antd": "^4.7.3",
-    "i18next": "^17.0.8",
-    "react-i18next": "10.12.3",
+    "antd": "4.7.3",
     "typescript": "^4.2.3",
-    "webpanel-antd": "0.0.32",
-    "webpanel-data": "github:webpanel/data",
-    "webpanel-membershiplist": "0.0.2"
+    "webpanel-antd": "0.3.0",
+    "webpanel-data": "0.3.0"
   }
 }

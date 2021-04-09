@@ -6,13 +6,11 @@ import { Alert, Card, Spin } from "antd";
 import { Resource, ResourceCollection } from "webpanel-data";
 
 import { CardProps } from "antd/lib/card";
-import { observer } from "mobx-react";
 
 export interface ISpinningCardProps extends CardProps {
   observedResource: ResourceCollection<any> | Resource;
 }
 
-@observer
 export class SpinningCard extends React.Component<ISpinningCardProps> {
   public render() {
     const { observedResource, ...cardProps } = this.props;
