@@ -46,7 +46,10 @@ export const ListItem = (props: ListItemProps) => {
       <div className="file-list__right-column">
         <div style={{ margin: "auto 0" }}>{item.text}</div>
 
-        <div className="creation-date">{moment(item.createdAt).calendar()}</div>
+        <div className="creation-date">
+          {moment(item.createdAt).format("l")}{" "}
+          {moment(item.createdAt).format("LT")}
+        </div>
       </div>
     </div>
   );
