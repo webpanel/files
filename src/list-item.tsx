@@ -19,13 +19,16 @@ export const ListItem = (props: ListItemProps) => {
   const openItem = async (hostURL: string, item: any, token?: string) => {
     try {
       setLoading(true);
+      const windowRef = window.open();
       const url = await fetch(`${hostURL}/${item.id}`, {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       })
         .then((res) => res.json())
         .then((json) => json.url);
-      window.open(url, "_blank");
+      if (windowRef) {
+        windowRef.location = url;
+      }
     } catch (err) {
       message.error(err.message);
     } finally {
