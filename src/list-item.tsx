@@ -45,14 +45,13 @@ export const ListItem = (props: ListItemProps) => {
         </a>
 
         <span className="file-size">{numeral(item.size).format("0.00b")}</span>
+        <span className="creation-date">
+          {moment(item.createdAt).format("l")}{" "}
+          {moment(item.createdAt).format("LT")}
+        </span>
       </div>
       <div className="file-list__right-column">
         <div style={{ margin: "auto 0" }}>{item.text}</div>
-
-        <div className="creation-date">
-          {moment(item.createdAt).format("l")}{" "}
-          {moment(item.createdAt).format("LT")}
-        </div>
       </div>
     </div>
   );

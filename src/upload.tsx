@@ -39,7 +39,6 @@ export class Upload extends React.Component<IUploadProps> {
     const status = info.file.status;
 
     if (status === "done" && this.props.onUploadSuccess) {
-      console.log("??", info.file.response);
       this.props.onUploadSuccess(info.file.response);
     } else if (status === "error" && this.props.onUploadError) {
       this.props.onUploadError(info.file.error, info.file);
