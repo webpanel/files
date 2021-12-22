@@ -38,10 +38,14 @@ function getBody(xhr: XMLHttpRequest) {
 //   action: string;
 //   headers: Headers;
 // }
+interface FileUpload {
+  id: string;
+  uploadURL: string;
+}
 
-const getPresignedUrl = async (
+const getFileUpload = async (
   options: RcCustomRequestOptions
-): Promise<string> => {
+): Promise<FileUpload> => {
   return fetch(options.action, {
     method: "POST",
     body: JSON.stringify({
@@ -55,7 +59,7 @@ const getPresignedUrl = async (
     },
   })
     .then((res) => res.json())
-    .then((json) => json.uploadURL);
+    .then((json) => json);
 };
 
 export function UploadRequest(options: RcCustomRequestOptions) {
@@ -75,18 +79,18 @@ export function UploadRequest(options: RcCustomRequestOptions) {
     options.onError(getError(options, xhr), getBody(xhr));
   };
 
-  xhr.onload = function onload() {
-    // allow success when 2xx status
-    // see https://github.com/react-component/upload/issues/34
-    if (xhr.status < 200 || xhr.status >= 300) {
-      return options.onError(getError(options, xhr), getBody(xhr));
-    }
+  getFileUpload(options).then((fileUpload) => {
+    xhr.onload = function onload() {
+      // allow success when 2xx status
+      // see https://github.com/react-component/upload/issues/34
+      if (xhr.status < 200 || xhr.status >= 300) {
+        return options.onError(getError(options, xhr), getBody(xhr));
+      }
 
-    options.onSuccess(getBody(xhr), options.file);
-  };
+      options.onSuccess(fileUpload, options.file);
+    };
 
-  getPresignedUrl(options).then((uploadURL) => {
-    xhr.open("PUT", uploadURL, true);
+    xhr.open("PUT", fileUpload.uploadURL, true);
 
     // Has to be after `.open()`. See https://github.com/enyo/dropzone/issues/179
     if (options.withCredentials && "withCredentials" in xhr) {

@@ -39,7 +39,7 @@ export const FilesList = (props: IFilesListProps) => {
     accessToken,
   } = props;
 
-  let filters: DataSourceArgumentMap = {};
+  let filters: DataSourceArgumentMap = { status: "COMPLETED" };
   if (referenceID) {
     filters[referenceColumn || "reference"] = referenceID;
   }
@@ -73,7 +73,8 @@ export const FilesList = (props: IFilesListProps) => {
                 <DeleteButton
                   key="delete"
                   onDelete={async () => {
-                    await files.delete(item.id);
+                    const f = files.getItem({ id: item.id });
+                    await f.update({ status: "DELETED" });
                     await files.get();
                   }}
                 />,
@@ -95,7 +96,9 @@ export const FilesList = (props: IFilesListProps) => {
         <Upload
           url={`${uploadURL}?reference=${props.referenceID}&${props.referenceColumn}=${props.referenceID}`}
           accessToken={accessToken}
-          onUploadSuccess={() => {
+          onUploadSuccess={async (response: { id: string }) => {
+            const f = files.getItem({ id: response.id });
+            await f.update({ status: "COMPLETED" });
             message.success("Soubor nahrán.");
             files.get();
           }}
