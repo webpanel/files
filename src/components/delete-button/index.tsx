@@ -12,9 +12,9 @@ export class DeleteButton extends React.Component<IDeleteButtonProps> {
   public render() {
     return (
       <Popconfirm
-        title="Do you want to delete this item?"
-        cancelText="No"
-        okText="Yes"
+        title="Přejete si smazat vybrané položky?"
+        cancelText="Ne"
+        okText="Ano"
         onConfirm={() => this.props.onDelete()}
       >
         <Button danger={true} size="small">

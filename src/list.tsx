@@ -24,6 +24,7 @@ export interface IFilesListProps {
   hostURL: string;
   readonly?: boolean;
   accessToken?: string;
+  extra?: (selectedIDs: string[]) => React.ReactNode;
 }
 
 export const FilesList = (props: IFilesListProps) => {
@@ -36,6 +37,7 @@ export const FilesList = (props: IFilesListProps) => {
     initialFilters,
     readonly,
     accessToken,
+    extra,
   } = props;
 
   let filters: DataSourceArgumentMap = { status: "COMPLETED" };
@@ -46,7 +48,8 @@ export const FilesList = (props: IFilesListProps) => {
   const [selectedIDs, setSelectedIDs] = React.useState<{
     [key: string]: boolean;
   }>({});
-  const selectedCount = Object.keys(selectedIDs).length;
+  const selectedKeys = Object.keys(selectedIDs);
+  const selectedCount = selectedKeys.length;
 
   const files = useResourceCollection({
     name: "files",
@@ -68,6 +71,7 @@ export const FilesList = (props: IFilesListProps) => {
       observedResource={files}
       title="Soubory"
       extra={[
+        extra && extra(selectedKeys),
         <DeleteButton
           onDelete={async () => {
             await Promise.all(
