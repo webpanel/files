@@ -11,6 +11,8 @@ export interface IFilesListProps {
     hostURL: string;
     readonly?: boolean;
     accessToken?: string;
-    extra?: (selectedIDs: string[]) => React.ReactNode;
+    extra?: (selectedIDs: {
+        [key: string]: any;
+    }) => React.ReactNode;
 }
 export declare const FilesList: (props: IFilesListProps) => JSX.Element;

@@ -24,7 +24,7 @@ export interface IFilesListProps {
   hostURL: string;
   readonly?: boolean;
   accessToken?: string;
-  extra?: (selectedIDs: string[]) => React.ReactNode;
+  extra?: (selectedIDs: { [key: string]: any }) => React.ReactNode;
 }
 
 export const FilesList = (props: IFilesListProps) => {
@@ -45,10 +45,10 @@ export const FilesList = (props: IFilesListProps) => {
     filters[referenceColumn || "reference"] = referenceID;
   }
   filters = { ...filters, ...initialFilters };
-  const [selectedIDs, setSelectedIDs] = React.useState<{
-    [key: string]: boolean;
+  const [selectedFiles, setSelectedFiles] = React.useState<{
+    [key: string]: any;
   }>({});
-  const selectedKeys = Object.keys(selectedIDs);
+  const selectedKeys = Object.keys(selectedFiles);
   const selectedCount = selectedKeys.length;
 
   const files = useResourceCollection({
@@ -71,17 +71,17 @@ export const FilesList = (props: IFilesListProps) => {
       observedResource={files}
       title="Soubory"
       extra={[
-        extra && extra(selectedKeys),
+        extra && extra(selectedFiles),
         <DeleteButton
           onDelete={async () => {
             await Promise.all(
-              Object.keys(selectedIDs).map((id: string) => {
+              Object.keys(selectedFiles).map((id: string) => {
                 const item = files.getItem({ id });
                 return item.update({ status: "DELETED" });
               })
             );
             files.get();
-            setSelectedIDs({});
+            setSelectedFiles({});
           }}
         />,
         " ",
@@ -92,11 +92,11 @@ export const FilesList = (props: IFilesListProps) => {
             if (selectedCount === 0) {
               const values = {};
               for (const f of files.getData() || []) {
-                values[f.id] = true;
+                values[f.id] = f;
               }
-              setSelectedIDs(values);
+              setSelectedFiles(values);
             } else {
-              setSelectedIDs({});
+              setSelectedFiles({});
             }
           }}
         />,
@@ -114,16 +114,16 @@ export const FilesList = (props: IFilesListProps) => {
                 <Checkbox
                   onChange={() => {
                     const values = {
-                      ...selectedIDs,
+                      ...selectedFiles,
                     };
                     if (values[item.id]) {
                       delete values[item.id];
                     } else {
-                      values[item.id] = true;
+                      values[item.id] = item;
                     }
-                    setSelectedIDs(values);
+                    setSelectedFiles(values);
                   }}
-                  checked={selectedIDs[item.id]}
+                  checked={selectedFiles[item.id]}
                 />,
               ]}
             >
