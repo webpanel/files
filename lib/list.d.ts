@@ -11,6 +11,7 @@ export interface IFilesListProps {
     hostURL: string;
     readonly?: boolean;
     accessToken?: string;
+    thumbnails?: boolean;
     extra?: (selectedIDs: {
         [key: string]: any;
     }) => React.ReactNode;

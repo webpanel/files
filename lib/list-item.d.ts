@@ -1,7 +1,18 @@
 /// <reference types="react" />
 import "react-chat-widget/lib/styles.css";
+interface FileItemThumbnail {
+    url: string;
+}
+interface FileItem {
+    id: string;
+    name: string;
+    size: number;
+    createdAt: string;
+    text?: string;
+    thumbnail?: FileItemThumbnail;
+}
 interface ListItemProps {
-    item: any;
+    item: FileItem;
     hostURL: string;
     accessToken?: string;
 }

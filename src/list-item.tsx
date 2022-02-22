@@ -6,8 +6,21 @@ import * as numeral from "numeral";
 
 import { Spin, message } from "antd";
 
+interface FileItemThumbnail {
+  url: string;
+}
+
+interface FileItem {
+  id: string;
+  name: string;
+  size: number;
+  createdAt: string;
+  text?: string;
+  thumbnail?: FileItemThumbnail;
+}
+
 interface ListItemProps {
-  item: any;
+  item: FileItem;
   hostURL: string;
   accessToken?: string;
 }
@@ -16,7 +29,7 @@ export const ListItem = (props: ListItemProps) => {
   const [loading, setLoading] = React.useState(false);
   const { item, hostURL, accessToken } = props;
 
-  const openItem = async (hostURL: string, item: any, token?: string) => {
+  const openItem = async (hostURL: string, item: FileItem, token?: string) => {
     try {
       setLoading(true);
       const windowRef = window.open();
@@ -36,18 +49,23 @@ export const ListItem = (props: ListItemProps) => {
     }
   };
 
+  const d = moment(item.createdAt);
   return (
     <div className={"file-list__item"}>
+      {item.thumbnail && (
+        <div className="file-list__thumbnail">
+          <a onClick={() => openItem(hostURL, item, accessToken)} href="#">
+            <img src={item.thumbnail.url} width={50} />
+          </a>
+        </div>
+      )}
       <div>
         <a onClick={() => openItem(hostURL, item, accessToken)} href="#">
           <h4>{item.name || <i>[unnamed_file]</i>}</h4>
           {loading && <Spin size="small" />}
         </a>
-
-        <span className="file-size">{numeral(item.size).format("0.00b")}</span>
         <span className="creation-date">
-          {moment(item.createdAt).format("l")}{" "}
-          {moment(item.createdAt).format("LT")}
+          {d.format("l")} {d.format("LT")}
         </span>
       </div>
       <div className="file-list__right-column">

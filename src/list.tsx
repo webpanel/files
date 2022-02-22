@@ -24,6 +24,7 @@ export interface IFilesListProps {
   hostURL: string;
   readonly?: boolean;
   accessToken?: string;
+  thumbnails?: boolean;
   extra?: (selectedIDs: { [key: string]: any }) => React.ReactNode;
 }
 
@@ -37,6 +38,7 @@ export const FilesList = (props: IFilesListProps) => {
     initialFilters,
     readonly,
     accessToken,
+    thumbnails,
     extra,
   } = props;
 
@@ -51,9 +53,14 @@ export const FilesList = (props: IFilesListProps) => {
   const selectedKeys = Object.keys(selectedFiles);
   const selectedCount = selectedKeys.length;
 
+  const fields = ["id", "name", "createdAt", "size"];
+  if (thumbnails) {
+    fields.push("thumbnail(width:50) { url }");
+  }
+
   const files = useResourceCollection({
     name: "files",
-    fields: ["id", "name", "createdAt", "size"],
+    fields,
     initialLimit: 99,
     initialOffset: 0,
     initialFilters: filters,
@@ -70,6 +77,7 @@ export const FilesList = (props: IFilesListProps) => {
     <SpinningCard
       observedResource={files}
       title="Soubory"
+      bodyStyle={{ padding: 16 }}
       extra={[
         extra && extra(selectedFiles),
         <DeleteButton
@@ -106,10 +114,15 @@ export const FilesList = (props: IFilesListProps) => {
         size="small"
         itemLayout="horizontal"
         dataSource={files.data || undefined}
-        pagination={{ position: "bottom", defaultPageSize: 5 }}
+        pagination={{
+          position: "bottom",
+          defaultPageSize: 5,
+        }}
         renderItem={(item: any) => {
           return (
             <List.Item
+              key={item.id}
+              style={{ padding: 8 }}
               actions={[
                 <Checkbox
                   onChange={() => {
