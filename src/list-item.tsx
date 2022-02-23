@@ -3,7 +3,7 @@ import "react-chat-widget/lib/styles.css";
 import * as React from "react";
 import * as moment from "moment";
 
-import { Spin, message } from "antd";
+import { Spin, message, Image, Popover } from "antd";
 
 interface FileItemThumbnail {
   url: string;
@@ -15,7 +15,8 @@ interface FileItem {
   size: number;
   createdAt: string;
   text?: string;
-  thumbnail?: FileItemThumbnail;
+  smallThumbnail?: FileItemThumbnail;
+  largeThumbnail?: FileItemThumbnail;
 }
 
 interface ListItemProps {
@@ -48,14 +49,24 @@ export const ListItem = (props: ListItemProps) => {
     }
   };
 
+  const tooltipContent = item.largeThumbnail && (
+    <div>
+      <Image width={250} src={item.largeThumbnail.url} placeholder={true} />
+    </div>
+  );
   const d = moment(item.createdAt);
   return (
     <div className={"file-list__item"}>
-      {item.thumbnail && (
+      {item.smallThumbnail && (
         <div className="file-list__thumbnail">
-          <a onClick={() => openItem(hostURL, item, accessToken)} href="#">
-            <img src={item.thumbnail.url} width={50} />
-          </a>
+          <Popover content={tooltipContent}>
+            <Image
+              src={item.smallThumbnail.url}
+              width={50}
+              preview={false}
+              placeholder={true}
+            />
+          </Popover>
         </div>
       )}
       <div>

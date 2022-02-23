@@ -9,7 +9,8 @@ interface FileItem {
     size: number;
     createdAt: string;
     text?: string;
-    thumbnail?: FileItemThumbnail;
+    smallThumbnail?: FileItemThumbnail;
+    largeThumbnail?: FileItemThumbnail;
 }
 interface ListItemProps {
     item: FileItem;

@@ -55,7 +55,8 @@ export const FilesList = (props: IFilesListProps) => {
 
   const fields = ["id", "name", "createdAt", "size"];
   if (thumbnails) {
-    fields.push("thumbnail(width:50) { url }");
+    fields.push("smallThumbnail: thumbnail(width:60) { url }");
+    fields.push("largeThumbnail: thumbnail(width:900) { url }");
   }
 
   const files = useResourceCollection({
