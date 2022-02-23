@@ -52,6 +52,7 @@ const getFileUpload = async (
       filename: options.file.name,
       size: options.file.size,
       contentType: options.file.type,
+      status: "UPLOADING",
     }),
     headers: {
       ...options.headers,

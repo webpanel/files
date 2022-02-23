@@ -2,7 +2,6 @@ import "react-chat-widget/lib/styles.css";
 
 import * as React from "react";
 import * as moment from "moment";
-import * as numeral from "numeral";
 
 import { Spin, message } from "antd";
 
