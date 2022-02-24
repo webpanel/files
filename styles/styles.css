@@ -30,3 +30,9 @@
 .ant-upload-drag-container {
   padding: 16px;
 }
+
+.file-list__select-all {
+  text-align: right;
+  padding-right: 16px;
+  margin-bottom: 5px;
+}

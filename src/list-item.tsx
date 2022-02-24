@@ -25,6 +25,8 @@ interface ListItemProps {
   accessToken?: string;
 }
 
+const imagePlaceholder = <Spin style={{ width: "100%" }} />;
+
 export const ListItem = (props: ListItemProps) => {
   const [loading, setLoading] = React.useState(false);
   const { item, hostURL, accessToken } = props;
@@ -51,7 +53,11 @@ export const ListItem = (props: ListItemProps) => {
 
   const tooltipContent = item.largeThumbnail && (
     <div>
-      <Image width={250} src={item.largeThumbnail.url} placeholder={true} />
+      <Image
+        width={250}
+        src={item.largeThumbnail.url}
+        placeholder={imagePlaceholder}
+      />
     </div>
   );
   const d = moment(item.createdAt);
@@ -59,19 +65,21 @@ export const ListItem = (props: ListItemProps) => {
     <div className={"file-list__item"}>
       {item.smallThumbnail && (
         <div className="file-list__thumbnail">
-          <Popover content={tooltipContent}>
+          <Popover content={tooltipContent} placement="left">
             <Image
               src={item.smallThumbnail.url}
               width={50}
               preview={false}
-              placeholder={true}
+              placeholder={imagePlaceholder}
             />
           </Popover>
         </div>
       )}
       <div>
         <a onClick={() => openItem(hostURL, item, accessToken)} href="#">
-          <h4>{item.name || <i>[unnamed_file]</i>}</h4>
+          <div>
+            <b>{item.name || <i>[unnamed_file]</i>}</b>
+          </div>
           {loading && <Spin size="small" />}
         </a>
         <span className="creation-date">

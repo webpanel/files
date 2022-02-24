@@ -1,4 +1,4 @@
-import * as React from "react";
+/// <reference types="react" />
 import { UploadProps } from "antd/lib/upload";
 export interface IUploadProps extends UploadProps {
     url: string;
@@ -6,7 +6,4 @@ export interface IUploadProps extends UploadProps {
     onUploadSuccess?: (file: any) => void;
     onUploadError?: (err: Error, file: any) => void;
 }
-export declare class Upload extends React.Component<IUploadProps> {
-    render(): JSX.Element;
-    private onChange;
-}
+export declare const Upload: (props: IUploadProps) => JSX.Element;

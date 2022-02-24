@@ -14,6 +14,7 @@ import { DeleteButton } from "./components/delete-button";
 import { ListItem } from "./list-item";
 import { SpinningCard } from "./spinning-card";
 import { Upload } from "./upload";
+import { useTranslation } from "react-i18next";
 
 export interface IFilesListProps {
   referenceID?: string | number;
@@ -41,6 +42,8 @@ export const FilesList = (props: IFilesListProps) => {
     thumbnails,
     extra,
   } = props;
+
+  const { t } = useTranslation("webpanel-files");
 
   let filters: DataSourceArgumentMap = { status: "COMPLETED" };
   if (referenceID) {
@@ -77,7 +80,7 @@ export const FilesList = (props: IFilesListProps) => {
   return (
     <SpinningCard
       observedResource={files}
-      title="Soubory"
+      title={t("files")}
       bodyStyle={{ padding: 16 }}
       extra={[
         extra && extra(selectedFiles),
@@ -93,7 +96,10 @@ export const FilesList = (props: IFilesListProps) => {
             setSelectedFiles({});
           }}
         />,
-        " ",
+      ]}
+    >
+      <div className="file-list__select-all">
+        {t("select_all")}{" "}
         <Checkbox
           checked={selectedCount > 0}
           indeterminate={selectedCount > 0 && selectedCount !== files.count}
@@ -108,9 +114,8 @@ export const FilesList = (props: IFilesListProps) => {
               setSelectedFiles({});
             }
           }}
-        />,
-      ]}
-    >
+        />
+      </div>
       <List
         size="small"
         itemLayout="horizontal"
@@ -157,12 +162,10 @@ export const FilesList = (props: IFilesListProps) => {
           onUploadSuccess={async (response: { id: string }) => {
             const f = files.getItem({ id: response.id });
             await f.update({ status: "COMPLETED" });
-            message.success("Soubor nahrán.");
+            message.success(t("file_uploaded"));
             files.get();
           }}
-          onUploadError={() =>
-            message.error("Soubor se bohužel nepodařilo nahrát.")
-          }
+          onUploadError={() => message.error(t("file_upload_failed"))}
           style={{ marginTop: 20 }}
         />
       )}
