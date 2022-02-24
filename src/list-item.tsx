@@ -77,9 +77,7 @@ export const ListItem = (props: ListItemProps) => {
       )}
       <div>
         <a onClick={() => openItem(hostURL, item, accessToken)} href="#">
-          <div>
-            <b>{item.name || <i>[unnamed_file]</i>}</b>
-          </div>
+          <div>{item.name || <i>[unnamed_file]</i>}</div>
           {loading && <Spin size="small" />}
         </a>
         <span className="creation-date">
