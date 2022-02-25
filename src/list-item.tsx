@@ -76,18 +76,18 @@ export const ListItem = (props: ListItemProps) => {
         </div>
       )}
       <div className="file-list__content">
-        <a onClick={() => openItem(hostURL, item, accessToken)} href="#">
-          <div>
-            <Typography.Text
-              style={{ maxWidth: "100%" }}
-              title={item.name}
-              ellipsis={true}
-            >
+        <div>
+          <Typography.Text
+            style={{ maxWidth: "100%" }}
+            title={item.name}
+            ellipsis={true}
+          >
+            <a onClick={() => openItem(hostURL, item, accessToken)} href="#">
               {item.name || <i>[unnamed_file]</i>}
-            </Typography.Text>
-          </div>
-          {loading && <Spin size="small" />}
-        </a>
+            </a>
+          </Typography.Text>
+        </div>
+        {loading && <Spin size="small" />}
         <span className="creation-date">
           {d.format("l")} {d.format("LT")}
         </span>
