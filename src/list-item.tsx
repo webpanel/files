@@ -3,7 +3,7 @@ import "react-chat-widget/lib/styles.css";
 import * as React from "react";
 import * as moment from "moment";
 
-import { Spin, message, Image, Popover } from "antd";
+import { Spin, message, Image, Popover, Typography } from "antd";
 
 interface FileItemThumbnail {
   url: string;
@@ -75,9 +75,17 @@ export const ListItem = (props: ListItemProps) => {
           </Popover>
         </div>
       )}
-      <div>
+      <div className="file-list__content">
         <a onClick={() => openItem(hostURL, item, accessToken)} href="#">
-          <div>{item.name || <i>[unnamed_file]</i>}</div>
+          <div>
+            <Typography.Text
+              style={{ maxWidth: "100%" }}
+              title={item.name}
+              ellipsis={true}
+            >
+              {item.name || <i>[unnamed_file]</i>}
+            </Typography.Text>
+          </div>
           {loading && <Spin size="small" />}
         </a>
         <span className="creation-date">

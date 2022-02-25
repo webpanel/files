@@ -1,7 +1,7 @@
 .file-list__item {
   display: flex;
   justify-content: left;
-  width: 100%;
+  width: calc(100% - 24px);
   gap: 5px;
 }
 
@@ -22,6 +22,10 @@
   padding-top: 5px;
   width: 50px;
 }
+.file-list__item .file-list__content {
+  flex: 1;
+  min-width: 0;
+}
 
 /* this is actually just fix for this issue https://github.com/ant-design/ant-design/issues/11869 */
 .ant-upload.ant-upload-drag {
@@ -35,4 +39,8 @@
   text-align: right;
   padding-right: 16px;
   margin-bottom: 5px;
+}
+
+.ant-list-item .ant-list-item-action {
+  margin-left: 0;
 }
